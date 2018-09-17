@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <style type="text/css">
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: rgb(238, 238, 187);
+    }
+  </style>
+  <script type="text/javascript">
+    var CONFIG_LOGO_NUM = 16;
+    var CONFIG_FALL_DIST = 300;
+    var CONFIG_DISP_PROB = 0.75;
+
+    function getLogoList () {
+      var logoList = [];
+      for (var i=1; i<=CONFIG_LOGO_NUM; ++i) {
+        var logo = '' + i;
+        while (logo.length < 2) {
+          logo = '0' + logo;
+        }
+        logo = 'logos/' + logo + '.webp';
+        logoList.push(logo);
+      }
+      return logoList;
+    }
+
+    var LOGO_LIST = getLogoList();
+
+    function displayRandomLogo(x, y, width, height) {
+      var logo = LOGO_LIST[Math.floor(Math.random() * CONFIG_LOGO_NUM)];
+
+      var elem = $('<div></div>');
+      elem.css('background-image', 'url("' + logo + '")');
+      elem.css('background-repeat', 'no-repeat');
+      elem.css('background-size', 'contain');
+
+      elem.css('position', 'absolute');
+      elem.css('left', '' + x + 'px');
+      elem.css('top', '' + y + 'px');
+      elem.css('width', '' + width + 'px');
+      elem.css('height', '' + height + 'px');
+
+      $('body').append(elem);
+
+      $(elem).animate({
+        top: '' + (y + CONFIG_FALL_DIST) + 'px',
+        opacity: 0
+      }, 1200, function () {
+          $(elem).remove();
+        }
+      );
+
+      return elem;
+    }
+
+    var IS_MOUSEDOWN = false;
+
+    $(document).mousedown(function (e) {
+      IS_MOUSEDOWN = true;
+    });
+
+    $(document).mouseup(function (e) {
+      IS_MOUSEDOWN = false;
+    });
+
+    $(document).mousemove(function (e) {
+      if (IS_MOUSEDOWN && Math.random() < CONFIG_DISP_PROB) {
+        var s = 25 + Math.floor(50 * Math.random());
+        var x = parseInt(e.clientX);
+        var y = parseInt(e.clientY);
+        displayRandomLogo(x, y, s, s);
+      }
+    });
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
