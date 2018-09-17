@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <style type="text/css">
     html, body {
       margin: 0;
@@ -58,19 +60,19 @@
 
     var IS_MOUSEDOWN = false;
 
-    $(document).mousedown(function (e) {
+    $(document).on('vmousedown', function (e) {
       IS_MOUSEDOWN = true;
     });
 
-    $(document).mouseup(function (e) {
+    $(document).on('vmouseup', function (e) {
       IS_MOUSEDOWN = false;
     });
 
-    $(document).mousemove(function (e) {
+    $(document).on('vmousemove', function (e) {
       if (IS_MOUSEDOWN && Math.random() < CONFIG_DISP_PROB) {
         var s = 25 + Math.floor(50 * Math.random());
-        var x = parseInt(e.clientX);
-        var y = parseInt(e.clientY);
+        var x = parseInt(e.pageX);
+        var y = parseInt(e.pageY);
         displayRandomLogo(x, y, s, s);
       }
     });
